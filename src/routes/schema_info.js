@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   GET, READ_WRITE, HIDDEN, LIST,
   MANY_TO_MANY, ONE_TO_MANY, ONE_TO_ONE, MANY_TO_ONE,
+  STRING, DECIMAL, DATE, BOOLEAN,
 } from 'node-bits';
 import pluralize from 'pluralize';
 
@@ -35,6 +36,15 @@ const mapListFieldSource = (key, schemaConfig, modelConfig) => {
   };
 };
 
+const typeMap = {
+  [String]: STRING,
+  [Number]: DECIMAL,
+  [Date]: DATE,
+  [Boolean]: BOOLEAN,
+};
+
+const mapType = type => typeMap[type] || type;
+
 const mapField = (key, schemaConfig, modelConfig) => {
   if (modelConfig.type === LIST) {
     modelConfig.source = mapListFieldSource(key, schemaConfig, modelConfig);
@@ -45,6 +55,8 @@ const mapField = (key, schemaConfig, modelConfig) => {
 
     ...schemaConfig,
     ...modelConfig,
+
+    type: mapType(modelConfig.type || schemaConfig.type),
   };
 };
 
