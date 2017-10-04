@@ -24,6 +24,7 @@
   "dependencies": {
     "ajv": "^5.2.0",
     "ajv-errors": "^1.0.0",
+    "aws-sdk": "^2.125.0",
     "imagemin": "^5.3.1",
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-pngquant": "^5.0.1",
