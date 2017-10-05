@@ -23,6 +23,8 @@ export const TEXT = 'TEXT';
 export const LIST = 'LIST';
 export const MEDIA = 'MEDIA';
 export const RICH_TEXT = 'RICH_TEXT';
+export const IMAGE = 'IMAGE';
+export const FILE = 'FILE';
 
 export const LIST_DISPLAY_MODES = [READ_ONLY, READ_WRITE];
 export const EDIT_DISPLAY_MODES = [WRITE_ONLY, READ_WRITE];

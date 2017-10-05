@@ -7,7 +7,7 @@ const DEFAULT_CONFIG = {
   secretAccessKey: '',
   bucket: '',
   subFolder: '',
-  downloadEndpoint: ''
+  downloadEndpoint: '',
 };
 
 class OnAmazonS3 {
@@ -33,7 +33,7 @@ class OnAmazonS3 {
     const params = {
       Body: file.data,
       Bucket: config.bucket,
-      Key: (config.subFolder ? config.subFolder + '/' : '') + file.name,
+      Key: (config.subFolder ? `${config.subFolder}/` : '') + file.name,
       ContentType: file.mimetype,
     };
 
@@ -41,10 +41,10 @@ class OnAmazonS3 {
       if (err) logError(err);
     });
 
-    return config.downloadEndpoint + '/' + file.name;
+    return `${config.downloadEndpoint}/${file.name}`;
   }
 
-  getImage(req, res, db) {
+  getFile(req, res, db) {
     const model = req.query.model;
     if (!model) {
       res.status(404).send('You must provide model for this configuration.');
