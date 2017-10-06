@@ -46,7 +46,7 @@ class OnAmazonS3 {
       if (err) logError(err);
     });
 
-    return config.downloadEndpoint + '/' + subFolderWithSeparator + file.name;
+    return `${config.downloadEndpoint}/${subFolderWithSeparator}${file.name}`;
   }
 
   getFile(req, res, db) {
