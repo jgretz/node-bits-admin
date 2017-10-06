@@ -2,7 +2,7 @@ import _ from 'lodash';
 import {
   GET, READ_WRITE, HIDDEN, LIST,
   MANY_TO_MANY, ONE_TO_MANY, ONE_TO_ONE, MANY_TO_ONE,
-  STRING, DECIMAL, DATE, BOOLEAN,
+  STRING, DECIMAL, DATE, BOOLEAN, MEDIA, IMAGE,
 } from 'node-bits';
 import pluralize from 'pluralize';
 
@@ -36,6 +36,8 @@ const mapListFieldSource = (key, schemaConfig, modelConfig) => {
   };
 };
 
+const mapMediaFieldDisplayType = (key, schemaConfig, modelConfig) => modelConfig.displayType || IMAGE;
+
 const typeMap = {
   [String]: STRING,
   [Number]: DECIMAL,
@@ -46,8 +48,17 @@ const typeMap = {
 const mapType = type => typeMap[type] || type;
 
 const mapField = (key, schemaConfig, modelConfig) => {
-  if (modelConfig.type === LIST) {
-    modelConfig.source = mapListFieldSource(key, schemaConfig, modelConfig);
+  switch (modelConfig.type) {
+    case LIST:
+      modelConfig.source = mapListFieldSource(key, schemaConfig, modelConfig);
+      break;
+
+    case MEDIA:
+      modelConfig.displayType = mapMediaFieldDisplayType(key, schemaConfig, modelConfig);
+      break;
+
+    default:
+      break;
   }
 
   return {

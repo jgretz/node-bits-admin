@@ -9,7 +9,7 @@ const DEFAULT_CONFIG = {
   bucket: '',
   subFolder: '',
   generateSubFolder: null,
-  downloadEndpoint: ''
+  downloadEndpoint: '',
 };
 
 class OnAmazonS3 {
@@ -49,7 +49,7 @@ class OnAmazonS3 {
     return config.downloadEndpoint + '/' + subFolderWithSeparator + file.name;
   }
 
-  getImage(req, res, db) {
+  getFile(req, res, db) {
     const model = req.query.model;
     if (!model) {
       res.status(404).send('You must provide model for this configuration.');
