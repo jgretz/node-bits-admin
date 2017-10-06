@@ -15,7 +15,7 @@ export default config => ({
       .then(json => json.data.link);
   },
 
-  getImage: (req, res, db) => {
+  getFile: (req, res, db) => {
     const model = req.query.model;
     if (!model) {
       res.status(404).send('You must provide model for this configuration.');

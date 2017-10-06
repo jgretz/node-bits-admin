@@ -1,6 +1,6 @@
 {
   "name": "node-bits-admin",
-  "version": "0.0.26",
+  "version": "0.0.28",
   "description": "node-bits-admin provides a CMS for your node-bits based api",
   "main": "lib/index.js",
   "scripts": {
@@ -24,12 +24,13 @@
   "dependencies": {
     "ajv": "^5.2.0",
     "ajv-errors": "^1.0.0",
+    "aws-sdk": "^2.125.0",
     "imagemin": "^5.3.1",
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-pngquant": "^5.0.1",
     "imgur": "^0.2.1",
     "lodash": "^4.17.4",
-    "node-bits": "^0.0.27",
+    "node-bits": "^0.0.33",
     "uuid-js": "^0.7.5"
   },
   "devDependencies": {

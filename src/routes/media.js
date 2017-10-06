@@ -9,7 +9,7 @@ export default config => {
       get: (req, res) => {
         const {storage, database} = config;
 
-        storage.getImage(req, res, database);
+        storage.getFile(req, res, database);
       },
     },
   };
