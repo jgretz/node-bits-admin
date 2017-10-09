@@ -33,12 +33,12 @@ class OnAmazonS3 {
     });
 
     const subFolder = (_.isFunction(config.generateSubFolder) ? config.generateSubFolder(args) : config.subFolder) || '';
-    const subFolderWithSeparator = subFolder + (subFolder ? '/' : '');
+    const subFolderWithSeparator = `${subFolder}${subFolder ? '/' : ''}`;
 
     const params = {
       Body: file.data,
       Bucket: config.bucket,
-      Key: subFolderWithSeparator + file.name,
+      Key: `${subFolderWithSeparator}${file.name}`,
       ContentType: file.mimetype,
     };
 
