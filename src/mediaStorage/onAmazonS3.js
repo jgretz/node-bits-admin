@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import _ from 'lodash';
 import {logError} from 'node-bits';
 
 const DEFAULT_CONFIG = {
@@ -7,6 +8,7 @@ const DEFAULT_CONFIG = {
   secretAccessKey: '',
   bucket: '',
   subFolder: '',
+  generateSubFolder: null,
   downloadEndpoint: '',
 };
 
@@ -18,7 +20,9 @@ class OnAmazonS3 {
     };
   }
 
-  store(file) {
+  store(file, key, args) {
+    if (!file || !file.data) return null;
+
     const config = this.config;
 
     const s3 = new AWS.S3({
@@ -28,12 +32,13 @@ class OnAmazonS3 {
       sslEnabled: true,
     });
 
-    if (!file || !file.data) return null;
+    const subFolder = (_.isFunction(config.generateSubFolder) ? config.generateSubFolder(args) : config.subFolder) || '';
+    const subFolderWithSeparator = `${subFolder}${subFolder ? '/' : ''}`;
 
     const params = {
       Body: file.data,
       Bucket: config.bucket,
-      Key: (config.subFolder ? `${config.subFolder}/` : '') + file.name,
+      Key: `${subFolderWithSeparator}${file.name}`,
       ContentType: file.mimetype,
     };
 
@@ -41,7 +46,7 @@ class OnAmazonS3 {
       if (err) logError(err);
     });
 
-    return `${config.downloadEndpoint}/${file.name}`;
+    return `${config.downloadEndpoint}/${subFolderWithSeparator}${file.name}`;
   }
 
   getFile(req, res, db) {

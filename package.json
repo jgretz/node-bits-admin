@@ -1,6 +1,6 @@
 {
   "name": "node-bits-admin",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "node-bits-admin provides a CMS for your node-bits based api",
   "main": "lib/index.js",
   "scripts": {
