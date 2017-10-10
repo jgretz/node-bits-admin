@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 import _ from 'lodash';
-import {logError} from 'node-bits';
+import {logError, BEFORE, AFTER} from 'node-bits';
 
 const DEFAULT_CONFIG = {
   region: 'us-east-1',
@@ -10,6 +10,7 @@ const DEFAULT_CONFIG = {
   subFolder: '',
   generateSubFolder: null,
   downloadEndpoint: '',
+  executionStage: BEFORE,
 };
 
 class OnAmazonS3 {
@@ -18,6 +19,10 @@ class OnAmazonS3 {
       ...DEFAULT_CONFIG,
       ...config,
     };
+  }
+
+  executeOnStage() {
+    return this.config.executionStage;
   }
 
   store(file, key, args) {
@@ -46,7 +51,22 @@ class OnAmazonS3 {
       if (err) logError(err);
     });
 
-    return `${config.downloadEndpoint}/${subFolderWithSeparator}${file.name}`;
+    const downloadUrl = `${config.downloadEndpoint}/${params.Key}`;
+
+    if (this.executeOnStage() !== AFTER) return downloadUrl;
+
+    const objectId = (args.data && args.data.id) ? args.data.id : args.req.body.id;
+    const objectChanges = {[key]: downloadUrl};
+    args.database.update(args.name, objectId, objectChanges);
+
+    if (args.data.id) {
+      args.data[key] = downloadUrl;
+    }
+    else {
+      args.data = objectChanges;
+    }
+
+    return downloadUrl;
   }
 
   getFile(req, res, db) {
