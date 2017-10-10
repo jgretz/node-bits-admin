@@ -13,7 +13,9 @@ export default class MediaSubscriber {
   perform(args) {
     const {req, stage, verb} = args;
 
-    if (![POST, PUT].includes(verb) || stage !== BEFORE) {
+    const executionStage = (_.isFunction(this.storage.executeOnStage) ? this.storage.executeOnStage() : '') || BEFORE;
+
+    if (![POST, PUT].includes(verb) || stage !== executionStage) {
       return null;
     }
 
